@@ -44,6 +44,14 @@
         return NO;
     }
     
+    if ([topViewController conformsToProtocol:@protocol(JLFDFullscreenPopGesture)] && [topViewController respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
+        id<JLFDFullscreenPopGesture> temp = topViewController;
+        BOOL result = [temp gestureRecognizerShouldBegin:gestureRecognizer];
+        if (result == NO) {
+            return NO;
+        }
+    }
+    
     // Ignore when the beginning location is beyond max allowed initial distance to left edge.
     CGPoint beginningLocation = [gestureRecognizer locationInView:gestureRecognizer.view];
     CGFloat maxAllowedInitialDistance = topViewController.fd_interactivePopMaxAllowedInitialDistanceToLeftEdge;
